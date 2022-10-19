@@ -1,0 +1,92 @@
+<!doctype html>
+<meta charset="utf-8">
+<script src="./vendor/crypto-js/src/core.js"></script>
+<script src="./vendor/crypto-js/src/hmac.js"></script>
+<script src="./vendor/crypto-js/src/sha256.js"></script>
+<script src="./vendor/crypto-js/src/x64-core.js"></script>
+<script src="./vendor/crypto-js/src/sha512.js"></script>
+<style>
+body{
+  font-family: sans-serif;
+  text-align: center;
+}
+
+hr {
+  margin: 50px 0;
+}
+</style>
+<body>
+  <h1>Enter the server seed of your game</h1>
+  <p><input type="text" id="server_seed" style="width:450px" /></p>
+  <h1>Enter the client seed of your game</h1>
+  <p><input type="text" id="client_seed" style="width:450px" /></p>
+  <h1>Enter the nonce</h1>
+  <p><input type="number" id="nonce" /></p>
+  <br />
+  <hr />
+  <div id="nodata">
+    <p style="color:red;">Please enter a server seed and client seed and nonce to view luck number</p>
+  </div>
+  <div id="data" style="display:none;">
+    <h1>Server seed hash:</h1>
+    <p><span id="server_seed_hash"></span></p>
+    <h1>Luck number:</h1>
+    <p><span id="luck_number"></span></p>
+  </div>
+  <script>
+  function getNumber(hash) {
+    let seed = CryptoJS.SHA512(hash).toString(CryptoJS.enc.Hex);
+    let index = 0;
+    let lucky = parseInt(seed.substr(index, 5), 16);
+    while(lucky>=1000000){
+      index += 5;
+      lucky = parseInt(seed.substr(index, 5), 16);
+    }
+    const n = Math.floor(lucky%10000/100);
+    return n;
+  }
+
+  const state = {
+    get server_seed(){return document.querySelector('#server_seed').value;},
+    get client_seed(){return document.querySelector('#client_seed').value;},
+    get nonce(){return document.querySelector('#nonce').value;}
+  };
+
+  document.querySelector('#server_seed').addEventListener('change', tryCalculate);
+  document.querySelector('#server_seed').addEventListener('keyup', tryCalculate);
+  document.querySelector('#client_seed').addEventListener('change', tryCalculate);
+  document.querySelector('#client_seed').addEventListener('keyup', tryCalculate);
+  document.querySelector('#nonce').addEventListener('change', tryCalculate);
+  document.querySelector('#nonce').addEventListener('keyup', tryCalculate);
+
+  let lastKey = '';
+  function tryCalculate(){
+    if(state.server_seed.length===64 && state.client_seed.length===64 && state.nonce.length>0){
+      let hash = state.server_seed+state.client_seed+state.nonce;
+      if(lastKey===hash){
+        return;
+      }
+      lastKey = hash;
+      let h = CryptoJS.SHA256(state.server_seed).toString(CryptoJS.enc.Hex);
+      document.querySelector('#server_seed_hash').textContent = h;
+      let n = getNumber(hash);
+      document.querySelector('#luck_number').textContent = n;
+      document.querySelector('#data').style.display = '';
+      document.querySelector('#nodata').style.display = 'none';
+    }
+  }
+
+  location.search.replace('?','').split('&').map(e=>e.split('=')).forEach(p=>{
+    if(p[0]==='server'){
+      document.querySelector('#server_seed').value = p[1];
+      tryCalculate();
+    }else if(p[0]==='client'){
+      document.querySelector('#client_seed').value = p[1];
+      tryCalculate();
+    }else if(p[0]==='nonce'){
+      document.querySelector('#nonce').value = p[1];
+      tryCalculate();
+    }
+  });
+  </script>
+</body>
