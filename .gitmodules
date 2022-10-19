@@ -1,0 +1,3 @@
+[submodule "vendor/crypto-js"]
+	path = vendor/crypto-js
+	url = https://github.com/brix/crypto-js.git
