@@ -11,6 +11,11 @@ body{
   text-align: center;
 }
 
+#luck_number{
+  font-size: 2em;
+  font-weight: bold;
+}
+
 hr {
   margin: 50px 0;
 }
@@ -36,7 +41,7 @@ hr {
     <p><span id="luck_number"></span></p>
   </div>
   <script>
-  function getNumber(hash) {
+  function getLuckNumber(hash) {
     let seed = CryptoJS.SHA512(hash).toString(CryptoJS.enc.Hex);
     let index = 0;
     let lucky = parseInt(seed.substr(index, 5), 16);
@@ -71,8 +76,13 @@ hr {
       lastKey = hash;
       let h = CryptoJS.SHA256(state.server_seed).toString(CryptoJS.enc.Hex);
       document.querySelector('#server_seed_hash').textContent = h;
-      let n = getNumber(hash);
+      let n = getLuckNumber(hash);
       document.querySelector('#luck_number').textContent = n;
+      if(n>50){
+        document.querySelector('#luck_number').style.color = 'red';
+      }else if(n<50){
+        document.querySelector('#luck_number').style.color = 'green';
+      }
       document.querySelector('#data').style.display = '';
       document.querySelector('#nodata').style.display = 'none';
     }
