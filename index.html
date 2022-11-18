@@ -48,8 +48,8 @@ hr {
       <tr><td></td><td></td><td></td><td></td><td></td></tr>
       <tr><td></td><td></td><td></td><td></td><td></td></tr>
     </table>
-    <h1>Server seed hash:</h1>
-    <p><span id="server_seed_hash"></span></p>
+    <!-- <h1>Server seed hash:</h1>
+    <p><span id="server_seed_hash"></span></p> -->
     <h1>Result hash:</h1>
     <p><span id="result_hash"></span></p>
   </div>
@@ -76,8 +76,8 @@ hr {
         document.querySelector(`#data tr:nth-child(${Math.floor(i/5)+1}) td:nth-child(${i%5+1})`).textContent = state.mine_layout[i] === '0' ? '💎' : '💣';
       }
       lastKey = hash;
-      let h = CryptoJS.SHA256(state.server_seed).toString(CryptoJS.enc.Hex);
-      document.querySelector('#server_seed_hash').textContent = h;
+      // let h = CryptoJS.SHA256(state.server_seed).toString(CryptoJS.enc.Hex);
+      // document.querySelector('#server_seed_hash').textContent = h;
       let n = CryptoJS.SHA256(hash).toString(CryptoJS.enc.Hex);
       document.querySelector('#result_hash').textContent = n;
       document.querySelector('#data').style.display = '';
