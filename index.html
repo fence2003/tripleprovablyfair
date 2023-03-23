@@ -29,24 +29,25 @@ hr {
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css" />
 <body>
-  <a class="github-fork-ribbon" href="https://github.com/fence2003/mineprovablyfair" data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a>
+  <a class="github-fork-ribbon" href="https://github.com/fence2003/tripleprovablyfair" data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a>
   <h1>Enter the server seed of your game</h1>
   <p><input type="text" id="server_seed" style="width:450px" /></p>
-  <h1>Enter the mine layout of your game</h1>
-  <p><input type="text" id="mine_layout" style="width:450px" /></p>
+  <h1>Enter the triple layout of your game</h1>
+  <p><input type="text" id="triple_layout" style="width:450px" /></p>
   <br />
   <hr />
   <div id="nodata">
-    <p style="color:red;">Please enter a server seed and mine layout to view result</p>
+    <p style="color:red;">Please enter a server seed and triple layout to view result</p>
   </div>
   <div id="data" style="display:none;">
     <h1>Layout graph:</h1>
     <table>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
     </table>
     <!-- <h1>Server seed hash:</h1>
     <p><span id="server_seed_hash"></span></p> -->
@@ -57,13 +58,13 @@ hr {
 
   const state = {
     get server_seed(){return document.querySelector('#server_seed').value;},
-    get mine_layout(){return document.querySelector('#mine_layout').value;}
+    get triple_layout(){return document.querySelector('#triple_layout').value;}
   };
 
   document.querySelector('#server_seed').addEventListener('change', tryCalculate);
   document.querySelector('#server_seed').addEventListener('keyup', tryCalculate);
-  document.querySelector('#mine_layout').addEventListener('change', tryCalculate);
-  document.querySelector('#mine_layout').addEventListener('keyup', tryCalculate);
+  document.querySelector('#triple_layout').addEventListener('change', tryCalculate);
+  document.querySelector('#triple_layout').addEventListener('keyup', tryCalculate);
 
   let lastKey = '';
   function tryCalculate(){
@@ -72,8 +73,8 @@ hr {
       if(lastKey===hash){
         return;
       }
-      for(let i=0; i<25; i++){
-        document.querySelector(`#data tr:nth-child(${Math.floor(i/5)+1}) td:nth-child(${i%5+1})`).textContent = state.mine_layout[i] === '0' ? '💎' : '💣';
+      for(let i=0; i<36; i++){
+        document.querySelector(`#data tr:nth-child(${Math.floor(i/6)+1}) td:nth-child(${i%6+1})`).textContent = state.triple_layout[i] === '1' ? '🍌' : 2 ? '🍒' :'🍉';
       }
       lastKey = hash;
       // let h = CryptoJS.SHA256(state.server_seed).toString(CryptoJS.enc.Hex);
