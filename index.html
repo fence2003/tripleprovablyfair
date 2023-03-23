@@ -68,8 +68,8 @@ hr {
 
   let lastKey = '';
   function tryCalculate(){
-    if(state.server_seed.length===64 && state.mine_layout.length===25){
-      let hash = state.server_seed+state.mine_layout;
+    if(state.server_seed.length===64 && state.triple_layout.length===36){
+      let hash = state.server_seed+state.triple_layout;
       if(lastKey===hash){
         return;
       }
@@ -94,7 +94,7 @@ hr {
       document.querySelector('#server_seed').value = p[1];
       tryCalculate();
     }else if(p[0]==='layout'){
-      document.querySelector('#mine_layout').value = p[1];
+      document.querySelector('#triple_layout').value = p[1];
       tryCalculate();
     }
   });
