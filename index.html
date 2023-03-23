@@ -74,7 +74,7 @@ hr {
         return;
       }
       for(let i=0; i<36; i++){
-        document.querySelector(`#data tr:nth-child(${Math.floor(i/6)+1}) td:nth-child(${i%6+1})`).textContent = state.triple_layout[i] === '1' ? '🍌' : 2 ? '🍒' :'🍉';
+        document.querySelector(`#data tr:nth-child(${Math.floor(i/6)+1}) td:nth-child(${i%6+1})`).textContent = state.triple_layout[i] === '1' ? '🍌' : state.triple_layout[i] === '2' ? '🍒' :'🍉';
       }
       lastKey = hash;
       // let h = CryptoJS.SHA256(state.server_seed).toString(CryptoJS.enc.Hex);
